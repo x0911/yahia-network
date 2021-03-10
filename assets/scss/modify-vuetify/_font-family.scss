@@ -1,0 +1,38 @@
+* {
+  font-family: 'Poppins', 'Roboto', 'Cairo', sans-serif;
+}
+body {
+  font-family: 'Poppins', 'Roboto', 'Cairo', sans-serif !important;
+  .v-application {
+    font-family: 'Poppins', 'Roboto', 'Cairo', sans-serif !important;
+    // Vue2-Editor
+    .quillWrapper {
+      .ql-container,
+      .ql-toolbar {
+        font-family: 'Poppins', 'Roboto', 'Cairo', sans-serif !important;
+        .ql-editor {
+          direction: auto;
+        }
+      }
+    }
+    $typos: 'text-body-1', 'text-body-2', 'text-caption', 'text-subtitle-1',
+      'text-subtitle-2', 'text-overline', 'text-button', 'v-list-item__title',
+      'blockquote', 'v-chip', 'headline';
+    @for $i from 20 through 35 {
+      .font-size-#{$i} {
+        font-size: #{$i}px;
+        line-height: 2.9rem !important;
+      }
+    }
+    @for $i from 1 through 6 {
+      .text-h#{$i} {
+        font-family: 'Poppins', 'Roboto', 'Cairo', sans-serif !important;
+      }
+    }
+    @each $typo in $typos {
+      .#{$typo} {
+        font-family: 'Poppins', 'Roboto', 'Cairo', sans-serif !important;
+      }
+    }
+  }
+}

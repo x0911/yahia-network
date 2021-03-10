@@ -1,6 +1,10 @@
 {
   "name": "yahia-network",
   "version": "1.0.0",
+  "description": "A challenge with my friend about who can create a better light-weighted social network resulted in this app",
+  "author": {
+    "name": "Hamdi Mohamed"
+  },
   "private": true,
   "scripts": {
     "dev": "nuxt",
@@ -8,14 +12,43 @@
     "start": "nuxt start",
     "generate": "nuxt generate",
     "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
-    "lint": "npm run lint:js"
+    "lint": "npm run lint:js",
+    "lets-go": "npm run build-spa && npm run replace-relative-paths ;",
+    "build-spa": "nuxt build --spa",
+    "replace-relative-paths": "replace '/nuxtfiles/' 'nuxtfiles/' dist --recursive && replace '/assets/' 'nuxtfiles/' dist --recursive && replace '(href|src|\"href\"|\"src\")=\"/' '$1=\"../' dist --recursive && replace '(href|src|\"href\"|\"src\"):\"/' '$1:\"../' dist --recursive",
+    "resources": "capacitor-resources -p android"
   },
   "dependencies": {
+    "@mdi/font": "^5.4.55",
     "@nuxt/content": "^1.11.1",
     "@nuxtjs/axios": "^5.12.5",
     "@nuxtjs/pwa": "^3.3.5",
+    "age-calculator": "^1.0.0",
     "core-js": "^3.8.3",
-    "nuxt": "^2.14.12"
+    "device-detector-js": "^2.2.7",
+    "mobile-detect": "^1.4.4",
+    "nuxt": "^2.14.12",
+    "typeface-cairo": "^1.1.13",
+    "typeface-poppins": "^1.1.13",
+    "v-mask": "^2.2.4",
+    "vue-apexcharts": "^1.6.0",
+    "vue-awesome-swiper": "^4.1.1",
+    "vue-browser-detect-plugin": "^0.1.13",
+    "vue-cookies": "^1.7.4",
+    "vue-country-flag": "^2.0.3",
+    "vue-countup-directive": "^1.2.3",
+    "vue-custom-scrollbar": "^1.4.0",
+    "vue-device-detector": "^1.1.6",
+    "vue-inner-image-zoom": "^1.0.1",
+    "vue-localstorage": "^0.6.2",
+    "vue-moment": "^4.1.0",
+    "vue-qrcode-component": "^2.1.1",
+    "vue-qrcode-reader": "^2.3.18",
+    "vue-the-mask": "^0.11.1",
+    "vue-use-web": "^1.0.1",
+    "vue-webrtc": "^1.2.2",
+    "vue-window-size": "^1.0.3",
+    "vue2-editor": "^2.10.2"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^5.0.0",

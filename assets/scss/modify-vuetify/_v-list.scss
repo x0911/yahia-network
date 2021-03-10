@@ -1,0 +1,17 @@
+.v-list {
+  .v-list-item {
+    &.no-active-background {
+      &::before {
+        background-color: transparent;
+      }
+    }
+    &.wrap {
+      .v-list-item__content {
+        .v-list-item__title:not(.no-wrap),
+        .v-list-item__subtitle:not(.no-wrap) {
+          white-space: initial;
+        }
+      }
+    }
+  }
+}

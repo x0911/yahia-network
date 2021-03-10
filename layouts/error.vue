@@ -32,6 +32,9 @@ export default {
       title,
     }
   },
+  mounted() {
+    // this.createRgbVarsForThemes(this.$vuetify.theme.themes)
+  },
 }
 </script>
 

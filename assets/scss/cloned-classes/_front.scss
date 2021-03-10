@@ -1,0 +1,8 @@
+@for $i from 1 through 20 {
+  .max-w-#{$i}rem {
+    max-width: #{$i}rem;
+  }
+  .w-#{$i}0 {
+    width: percentage($i / 10);
+  }
+}

@@ -1,6 +1,6 @@
 # Yahia Network
 
-A challenge with my friend about who can create a better light-weighted social network
+A challenge with my friend about who can create a better light-weighted social network resulted in this app
 
 ## Build Setup
 

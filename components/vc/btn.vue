@@ -1,0 +1,84 @@
+<template>
+  <v-hover>
+    <template #default="{ hover }">
+      <v-btn
+        v-bind="$props"
+        :elevation="hover ? '6' : '0'"
+        :style="style(hover)"
+        @click="btnClick"
+      >
+        <slot></slot>
+      </v-btn>
+    </template>
+  </v-hover>
+</template>
+
+<script>
+export default {
+  name: 'VcBtn',
+  props: {
+    activeClass: {
+      type: String || null || undefined,
+      default: undefined,
+    },
+    btnClick: {
+      type: Function,
+      default: () => {},
+    },
+    large: Boolean,
+    xLarge: Boolean,
+    block: Boolean,
+    depressed: Boolean,
+    fab: Boolean,
+    icon: Boolean,
+    loading: Boolean,
+    outlined: Boolean,
+    plain: Boolean,
+    retainFocusOnClick: Boolean,
+    rounded: Boolean,
+    tag: {
+      type: String,
+      default: 'button',
+    },
+    text: Boolean,
+    tile: Boolean,
+    color: {
+      type: String,
+      default: '',
+    },
+    backgroundColor: {
+      type: String,
+      default: '',
+    },
+    type: {
+      type: String,
+      default: 'button',
+    },
+    value: {
+      type: String || null || undefined,
+      default: null,
+    },
+  },
+  data: () => ({}),
+  computed: {
+    style() {
+      return (hover) => {
+        const { color } = this
+        const styles = []
+        // Global Styles
+        if (hover) {
+          // Styles on hover
+          styles.push('transform: translateY(-3px)')
+        } else {
+          // Styles on normal mode
+          styles.push(
+            `background-color: rgba( var(--v-${color}-rgb), 0.1) !important;`
+          )
+          styles.push(`color: var(--v-${color}-base) !important`)
+        }
+        return styles.join(' ; ')
+      }
+    },
+  },
+}
+</script>

@@ -1,0 +1,15 @@
+.v-application--is-ltr {
+  .v-text-field {
+    .v-input__prepend-inner {
+      padding-right: 8px !important;
+    }
+  }
+}
+
+.v-application--is-rtl {
+  .v-text-field {
+    .v-input__prepend-inner {
+      padding-left: 8px !important;
+    }
+  }
+}
