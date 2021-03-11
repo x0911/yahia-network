@@ -13,6 +13,6 @@ export default function (context) {
     context.store.state.user == null &&
     context.route.fullPath.includes('/app')
   ) {
-    context.redirect('/login')
+    context.redirect('/get-started')
   }
 }

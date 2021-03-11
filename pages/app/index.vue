@@ -8,5 +8,18 @@
 export default {
   layout: 'auth',
   data: () => ({}),
+  head() {
+    return {
+      title: 'Timeline',
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content:
+            'This is your timeline. A page where you see relevant things to your interests',
+        },
+      ],
+    }
+  },
 }
 </script>

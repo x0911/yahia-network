@@ -13,3 +13,22 @@
     }
   }
 }
+
+.v-text-field {
+  @each $color in $mainColors {
+    &.border-#{$color} {
+      fieldset {
+        border-color: var(--v-#{$color}-base);
+      }
+    }
+    @each $variant in $variants {
+      @for $i from 1 through 5 {
+        &.border-#{$color}-#{$variant}-#{$i} {
+          fieldset {
+            border-color: var(--v-#{$color}-#{$variant}#{$i});
+          }
+        }
+      }
+    }
+  }
+}

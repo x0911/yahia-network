@@ -68,34 +68,50 @@
           <path fill="#fff" d="M0,0c0,0,934.4,93.4,1920,0v100.1H0L0,0z"></path>
         </svg>
       </figure>
-      <v-layout
-        fill-height
-        class="text-center"
-        align-center
-        justify-center
-        align-content-center
-      >
-        <v-flex xs10 sm9 md6 lg4>
+      <v-layout fill-height align-center align-content-center>
+        <v-flex offset-1 xs10 sm9 md6 lg4>
           <v-card color="transparent" flat tile class="my-16">
-            <div
-              class="text-h2 font-weight-bold mb-4"
-              style="line-height: 1.1em"
+            <vue-typed-js
+              :strings="['posts', 'comments', 'reactions']"
+              :back-speed="30"
+              :back-delay="2500"
+              :loop="true"
+              :type-speed="90"
             >
-              Medical record with no papers
-            </div>
+              <div
+                class="text-h2 font-weight-bold mb-4"
+                style="line-height: 1.3em"
+              >
+                Turn your ideas
+                <div>
+                  into
+                  <span
+                    class="text-highlight-secondary warning--text text--lighten-2"
+                  >
+                    <span class="typing"></span>
+                  </span>
+                </div>
+              </div>
+            </vue-typed-js>
             <v-card-text
               style="font-size: 20px; line-height: 1.5em"
               class="px-0 mb-6 white--text"
             >
-              Yahia Network provides a new way of recordring medical history for
-              patients, analyzing these records and predicting next steps.
+              I'v had a challenge with my friend about who can create a better
+              light-weighted social network resulted in this application.
             </v-card-text>
 
-            <v-card-actions class="justify-center">
-              <v-btn x-large class="px-10" color="white" light>
-                Start Now
+            <v-card-actions>
+              <v-btn
+                to="/get-started"
+                x-large
+                class="px-10"
+                color="white"
+                light
+              >
+                Get Started
               </v-btn>
-              <v-btn large class="px-5" text>
+              <v-btn large class="px-4" text>
                 How it works
                 <v-icon class="ms-2">mdi-play-circle</v-icon>
               </v-btn>
@@ -103,162 +119,26 @@
           </v-card>
         </v-flex>
       </v-layout>
-
-      <!-- <div>
-              <div id="recaptcha-container"></div>
-              <v-window v-model="window">
-                <v-window-item>
-                  <v-text-field
-                    v-model="credentials.phoneNumber"
-                    v-mask="$store.state.login.mask.phoneNumber"
-                    label="Phone number"
-                    hint="."
-                    persistent-hint
-                    solo
-                    prepend-inner-icon="mdi-phone"
-                    @keypress.enter="sendVerificationCode()"
-                  >
-                    <template #message="{ on }">
-                      <div v-on="on">
-                        <div class="">
-                          We will send you a verification code. or
-                          <nuxt-link to="/login">
-                            Use another way to login
-                          </nuxt-link>
-                        </div>
-                      </div>
-                    </template>
-                    <template #append>
-                      <div>
-                        <v-btn
-                          color="primary"
-                          class="px-4"
-                          @click="sendVerificationCode()"
-                        >
-                          Send Code
-                          <v-icon small class="ms-2">
-                            mdi-chevron-double-right
-                          </v-icon>
-                        </v-btn>
-                      </div>
-                    </template>
-                  </v-text-field>
-                </v-window-item>
-                <v-window-item>
-                  <v-text-field
-                    v-model="credentials.code"
-                    v-mask="$store.state.login.mask.code"
-                    label="Verification code"
-                    hint="."
-                    persistent-hint
-                    solo
-                    dark
-                    prepend-inner-icon="mdi-lock-check"
-                    @keydown.enter="verifyCode()"
-                  >
-                    <template #message="{ on }">
-                      <div v-on="on">
-                        <div class="black--text">
-                          A verification code has been sent to you.
-                        </div>
-                      </div>
-                    </template>
-                    <template #append>
-                      <div>
-                        <v-btn
-                          color="primary"
-                          class="px-4"
-                          @click="verifyCode()"
-                        >
-                          Login
-                          <v-icon small class="ms-2">
-                            mdi-chevron-double-right
-                          </v-icon>
-                        </v-btn>
-                      </div>
-                    </template>
-                  </v-text-field>
-                </v-window-item>
-              </v-window>
-            </div> -->
-      <!-- <div v-if="$vuetify.breakpoint.lgAndUp" class="mt-5">
-              <v-row>
-                <template v-for="(link, i) in downloadLinks">
-                  <v-col :key="i" cols="12" md="6">
-                    <v-card
-                      outlined
-                      style="border-width: 4px; border-style: dashed"
-                      @click="() => {}"
-                    >
-                      <v-list-item>
-                        <v-list-item-avatar tile>
-                          <v-img
-                            :src="require(`@/assets/imgs/${link.img}`)"
-                            contain
-                          ></v-img>
-                        </v-list-item-avatar>
-                        <v-list-item-content>
-                          <v-list-item-title
-                            class="blue-grey--text text--darken-2 text-caption"
-                          >
-                            {{ link.subtitle }}
-                          </v-list-item-title>
-                          <v-list-item-subtitle
-                            class="font-weight-bold black--text"
-                          >
-                            {{ link.name }}
-                          </v-list-item-subtitle>
-                        </v-list-item-content>
-                      </v-list-item>
-                    </v-card>
-                  </v-col>
-                </template>
-              </v-row>
-            </div> -->
     </v-sheet>
-    <div style="position: relative">
+    <div class="p-relative mb-6">
       <v-container class="text-center">
         <v-layout justify-center align-center align-content-center>
           <template v-for="(tool, i) in tools">
-            <v-hover :key="i">
-              <template #default="{ hover }">
-                <v-flex>
-                  <div :class="`${hover ? tool.color : 'grey'}--text`">
-                    <v-icon
-                      :color="hover ? tool.color : 'grey'"
-                      class="me-1"
-                      x-large
-                      >mdi-{{ tool.icon }}</v-icon
-                    >
-                    <span class="font-weight-bold">
-                      {{ tool.icon }}
-                    </span>
-                  </div>
-                </v-flex>
-              </template>
-            </v-hover>
+            <v-flex :key="i">
+              <div class="blue-grey--text text--lighten-1">
+                <v-icon color="blue-grey lighten-1" class="me-1" x-large
+                  >mdi-{{ tool.icon }}</v-icon
+                >
+                <span class="font-weight-bold">
+                  {{ tool.icon }}
+                </span>
+              </div>
+            </v-flex>
           </template>
         </v-layout>
       </v-container>
-      <figure
-        style="
-          position: absolute;
-          transform: scaleY(-1);
-          width: 100%;
-          margin-top: -0.4rem;
-        "
-      >
-        <svg
-          preserveAspectRatio="none"
-          xmlns="http://www.w3.org/2000/svg"
-          x="0px"
-          y="0px"
-          viewBox="0 0 1920 100.1"
-        >
-          <path fill="#fff" d="M0,0c0,0,934.4,93.4,1920,0v100.1H0L0,0z"></path>
-        </svg>
-      </figure>
     </div>
+    <v-divider></v-divider>
   </div>
 </template>
 
@@ -271,10 +151,11 @@ export default {
       code: '',
     },
     tools: [
-      { icon: 'vuejs', color: 'green' },
-      { icon: 'firebase', color: 'orange' },
-      { icon: 'vuetify', color: 'blue' },
-      { icon: 'nuxt', color: 'success' },
+      { icon: 'nodejs' },
+      { icon: 'vuejs' },
+      { icon: 'nuxt' },
+      { icon: 'vuetify' },
+      { icon: 'firebase' },
     ],
     downloadLinks: [
       {

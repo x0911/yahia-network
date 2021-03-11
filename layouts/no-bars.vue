@@ -1,6 +1,5 @@
 <template>
   <v-app>
-    <lazy-landing-navbar></lazy-landing-navbar>
     <v-main>
       <nuxt />
     </v-main>

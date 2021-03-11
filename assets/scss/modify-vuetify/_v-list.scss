@@ -9,7 +9,7 @@
       .v-list-item__content {
         .v-list-item__title:not(.no-wrap),
         .v-list-item__subtitle:not(.no-wrap) {
-          white-space: initial;
+          white-space: initial !important;
         }
       }
     }

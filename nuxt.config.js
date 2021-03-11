@@ -43,6 +43,7 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     '~plugins/vue-the-mask.js',
+    '~plugins/vue-typed.js',
     '~plugins/vue-custom-scrollbar.js',
     '~plugins/mixins.js',
   ],
@@ -51,6 +52,10 @@ export default {
   components: {
     dirs: [
       '~/components',
+      {
+        path: '~/components/global/',
+        prefix: 'global',
+      },
       {
         path: '~/components/landing/',
         prefix: 'landing',
@@ -166,6 +171,7 @@ export default {
       themes: {
         light: {
           light: '#f7faff',
+          'success-front': '#00c9a7',
         },
         dark: {
           primary: colors.blue.darken2,

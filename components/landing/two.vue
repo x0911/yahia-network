@@ -1,7 +1,7 @@
 <template>
   <div class="pb-16 mb-12 p-relative">
     <v-container>
-      <v-sheet color="transparent">
+      <v-sheet>
         <div
           class="mb-10 font-size-32 font-weight-medium text-center text-md-start"
         >
@@ -15,14 +15,14 @@
                 <template v-for="(review, i) in reviews">
                   <v-col :key="i">
                     <v-card
-                      elevation="5"
+                      elevation="0"
                       :color="review.color ? review.color : 'white'"
                       :dark="review.dark"
                       class="flexed fill-height"
                       :style="`
                       ${
                         review.color
-                          ? 'box-shadow: 0px 7px 8px -4px rgba(25, 118, 210, 0.2),0px 12px 17px 2px rgba(25, 118, 210, 0.14),0px 5px 22px 4px rgba(25, 118, 210, 0.12) !important;'
+                          ? 'box-shadow: 0px 9px 12px -4px rgba(25, 118, 210, 0.2),0px 14px 22px 2px rgba(25, 118, 210, 0.14),0px 6px 25px 4px rgba(25, 118, 210, 0.12) !important;'
                           : ''
                       }
                       `"

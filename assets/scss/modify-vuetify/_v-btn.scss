@@ -1,3 +1,8 @@
 .v-btn {
   text-transform: none !important;
+  &.no-background {
+    &::before {
+      background-color: transparent;
+    }
+  }
 }

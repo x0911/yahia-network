@@ -48,6 +48,7 @@
     "vue-qrcode-component": "^2.1.1",
     "vue-qrcode-reader": "^2.3.18",
     "vue-the-mask": "^0.11.1",
+    "vue-typed-js": "^0.1.2",
     "vue-use-web": "^1.0.1",
     "vue-webrtc": "^1.2.2",
     "vue-window-size": "^1.0.3",
