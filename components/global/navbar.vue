@@ -4,7 +4,7 @@
       <v-container class="text-center">
         <div>
           <v-avatar size="100">
-            <lazy-global-logo color="primary"></lazy-global-logo>
+            <app-logo color="primary"></app-logo>
           </v-avatar>
         </div>
         <div>
@@ -44,7 +44,7 @@
         @click="sidenav.model = true"
       ></v-app-bar-nav-icon>
       <v-avatar v-if="!topnav.collapse">
-        <lazy-global-logo color="secondary"></lazy-global-logo>
+        <app-logo color="secondary"></app-logo>
       </v-avatar>
       <v-btn v-if="!topnav.collapse" text to="/" active-class="no-background">
         <v-toolbar-title class="font-weight-medium">
@@ -66,6 +66,9 @@
 <script>
 export default {
   name: 'LandingNavbar',
+  components: {
+    AppLogo: () => import('@/components/global/logo.vue'),
+  },
   data: () => ({
     sidenav: {
       model: false,

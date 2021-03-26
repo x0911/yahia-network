@@ -2,8 +2,8 @@
   <v-layout align-center justify-center align-content-center>
     <v-flex lg6>
       <div>
-        <lazy-global-add-post></lazy-global-add-post>
-        <lazy-global-all-posts></lazy-global-all-posts>
+        <add-post></add-post>
+        <all-posts></all-posts>
       </div>
     </v-flex>
   </v-layout>
@@ -11,6 +11,10 @@
 
 <script>
 export default {
+  components: {
+    AddPost: () => import('@/components/global/add-post.vue'),
+    AllPosts: () => import('@/components/global/all-posts.vue'),
+  },
   layout: 'auth',
   data: () => ({}),
   head() {

@@ -16,7 +16,12 @@
                   :class="`random-icon-position v-${i + 1}`"
                   :strength="((i === 0 ? 1 : i + 1) * 10) / 2"
                 >
-                  <v-icon size="100" color="pink lighten-5">
+                  <v-icon
+                    size="100"
+                    :color="`${
+                      colors[Math.floor(Math.random() * colors.length)]
+                    } lighten-5`"
+                  >
                     {{ icon }}
                   </v-icon>
                 </kinesis-element>
@@ -36,6 +41,7 @@
 export default {
   name: 'OneMoreStepLayout',
   data: () => ({
+    colors: ['blue', 'pink', 'indigo', 'error', 'grey'],
     icons: [
       'mdi-circle',
       'mdi-circle-outline',

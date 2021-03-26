@@ -6,9 +6,10 @@ module.exports = {
       ;(async function loop() {
         for (let i = 0; i < docs.length; i++) {
           const doc = docs[i]
-          const post = doc.data()
-          post.hasPendingWrites = doc.metadata.hasPendingWrites
-          post.id = doc.id
+          const post = doc.doc.data()
+          post.hasPendingWrites = doc.doc.metadata.hasPendingWrites
+          post.id = doc.doc.id
+          post.changeType = doc.changeType
           const author = await $this.$fire.firestore
             .collection('users')
             .doc(post.uid)

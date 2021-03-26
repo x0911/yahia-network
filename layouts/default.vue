@@ -1,10 +1,10 @@
 <template>
   <v-app>
-    <lazy-global-navbar></lazy-global-navbar>
+    <app-topnav></app-topnav>
     <v-main>
       <nuxt />
     </v-main>
-    <signin-methods-for-email></signin-methods-for-email>
+    <methods-for-email></methods-for-email>
   </v-app>
 </template>
 
@@ -51,6 +51,10 @@ const createRgbVarsForThemes = (themes) => {
   })
 }
 export default {
+  components: {
+    AppTopnav: () => import('@/components/global/navbar.vue'),
+    MethodsForEmail: () => import('@/components/signin/methods-for-email.vue'),
+  },
   data: () => ({}),
   mounted() {
     createRgbVarsForThemes(this.$vuetify.theme.themes)

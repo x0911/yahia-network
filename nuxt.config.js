@@ -44,6 +44,8 @@ export default {
   plugins: [
     '~plugins/vue-the-mask.js',
     '~plugins/vue-typed.js',
+    '~plugins/vue-moment.js',
+    '~plugins/vc.js',
     '~plugins/vue-kinesis.js',
     '~plugins/vue-local-storage.js',
     '~plugins/vue-custom-scrollbar.js',
@@ -51,24 +53,25 @@ export default {
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
-  components: [
-    {
-      path: '~/components/global/',
-      prefix: 'global',
-    },
-    {
-      path: '~/components/landing/',
-      prefix: 'landing',
-    },
-    {
-      path: '~/components/vc/',
-      prefix: 'vc',
-    },
-    {
-      path: '~/components/signin/',
-      prefix: 'signin',
-    },
-  ],
+  // components: [
+  //   {
+  //     path: '~/components/global/',
+  //     prefix: 'global',
+  //   },
+  //   {
+  //     path: '~/components/landing/',
+  //     prefix: 'landing',
+  //   },
+  //   {
+  //     path: '~/components/vc/',
+  //     prefix: 'vc',
+  //   },
+  //   {
+  //     path: '~/components/signin/',
+  //     prefix: 'signin',
+  //   },
+  // ],
+  components: false,
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [

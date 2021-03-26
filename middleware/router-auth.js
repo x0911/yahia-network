@@ -32,19 +32,26 @@ export default async function (context) {
         console.log('We have a user')
         // We have a user
         if (
-          (!context.store.userData ||
-            !context.store.userData.uid ||
-            !context.store.userData.fname ||
-            !context.store.userData.lname ||
-            !context.store.userData.prefix) &&
+          (!context.store.state.userData ||
+            !context.store.state.userData.uid ||
+            !context.store.state.userData.fname ||
+            !context.store.state.userData.lname ||
+            !context.store.state.userData.gender) &&
           fullPath !== '/get-started/one-more-step'
         ) {
           context.redirect('/get-started/one-more-step')
         }
+        console.log(context.store.state.userData)
         if (
           ['/'].includes(fullPath) ||
           (fullPath.includes('/get-started') &&
-            fullPath !== '/get-started/one-more-step')
+            (fullPath !== '/get-started/one-more-step' ||
+              (fullPath === '/get-started/one-more-step' &&
+                context.store.state.userData &&
+                context.store.state.userData.uid &&
+                context.store.state.userData.fname &&
+                context.store.state.userData.lname &&
+                context.store.state.userData.gender)))
         ) {
           context.redirect('/app')
         }

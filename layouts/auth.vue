@@ -1,14 +1,12 @@
 <template>
   <v-app>
-    <lazy-global-sidenav></lazy-global-sidenav>
+    <app-sidenav></app-sidenav>
     <v-main>
       <v-container>
         <nuxt />
       </v-container>
     </v-main>
-    <lazy-global-offline-alert
-      v-if="$nuxt.isOffline"
-    ></lazy-global-offline-alert>
+    <offline-alert v-if="$nuxt.isOffline"></offline-alert>
   </v-app>
 </template>
 
@@ -56,35 +54,18 @@ const createRgbVarsForThemes = (themes) => {
 }
 export default {
   name: 'AuthLayout',
+  components: {
+    AppSidenav: () => import('@/components/global/sidenav.vue'),
+    OfflineAlert: () => import('@/components/global/offline-alert.vue'),
+  },
   data: () => ({}),
   head() {
     return {
       title: 'App',
     }
   },
-  async mounted() {
+  mounted() {
     createRgbVarsForThemes(this.$vuetify.theme.themes)
-    const uid = this.$store.state.user?.uid
-    if (uid) {
-      await this.$fire.firestore
-        .collection('users')
-        .doc(uid)
-        .onSnapshot(
-          async (snapshot) => {
-            if (snapshot.exists) {
-              const data = snapshot.data()
-              this.$store.commit('ON_REQUEST_USER_DATA', data)
-            } else {
-              await this.$fire.firestore.collection('users').doc(uid).set({
-                uid,
-              })
-            }
-          },
-          (error) => {
-            console.log(error)
-          }
-        )
-    }
   },
 }
 </script>

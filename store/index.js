@@ -60,7 +60,7 @@ export const mutations = {
 }
 
 export const actions = {
-  getFirebaseReady({ commit, state, rootState }) {
+  getFirebaseReady({ commit, state, dispatch, rootState }) {
     return new Promise((resolve, reject) => {
       if (!state.firebaseReady) {
         this.$fire
@@ -76,6 +76,7 @@ export const actions = {
             await this.$fire.storageReady()
             await this.$fire.functionsReady()
             this.$fireAuthStore.subscribe()
+            dispatch('setUserData')
             const intval = setInterval(() => {
               commit('ON_GET_FIREBASE_READY')
               clearInterval(intval)
@@ -95,6 +96,35 @@ export const actions = {
     } else {
       // Do something with the authUser and the claims object...
       // Get User Data
+    }
+  },
+  async setUserData({ commit, state, rootState }) {
+    const $this = this
+    const uid = state.user.uid
+    if (uid) {
+      await $this.$fire.firestore
+        .collection('users')
+        .doc(state.user.uid)
+        .onSnapshot(
+          async (snapshot) => {
+            if (snapshot.exists) {
+              const data = snapshot.data()
+              commit('ON_REQUEST_USER_DATA', data)
+            } else {
+              await $this.$fire.firestore
+                .collection('users')
+                .doc(state.user.uid)
+                .set({
+                  uid: state.user.uid,
+                })
+            }
+          },
+          (error) => {
+            console.log(error)
+          }
+        )
+    } else {
+      console.log('No uid')
     }
   },
   logout({ commit, state, rootState }) {

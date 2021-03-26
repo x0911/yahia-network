@@ -24,7 +24,7 @@
                 <div class="text-center">
                   <div>
                     <v-avatar size="150">
-                      <lazy-global-logo></lazy-global-logo>
+                      <app-logo></app-logo>
                     </v-avatar>
                   </div>
                   <div>Yahia Social Network</div>
@@ -141,6 +141,9 @@ const createRgbVarsForThemes = (themes) => {
   })
 }
 export default {
+  components: {
+    AppLogo: () => import('@/components/global/logo.vue'),
+  },
   data: () => ({
     reCaptchaIsSet: false,
     platforms: [

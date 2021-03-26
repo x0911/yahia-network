@@ -5,7 +5,7 @@
       :temporary="!$store.state.options.drawer.fixed"
       app
       :mini-variant.sync="$store.state.options.drawer.mini"
-      :right="$vuetify.theme.rtl"
+      :right="$vuetify.rtl"
       overflow
       height="100%"
       width="260"
@@ -23,7 +23,7 @@
           style="height: 100%; width: 260px"
           :settings="$store.state.options.scrollbar_settings"
         >
-          <v-list nav dense class="">
+          <v-list nav dense>
             <v-subheader>Your Profile</v-subheader>
             <v-list-item exact :to="`/profile/${user.uid}`">
               <v-list-item-avatar>
@@ -63,7 +63,6 @@
                 v-if="!item.type || item.type == 'single'"
                 :key="i"
                 exact
-                class="my-0"
                 :to="item.to"
                 @click="item.click ? runFun(item.click) : () => {}"
               >
@@ -130,7 +129,7 @@
 export default {
   name: 'Sidenav',
   data: () => ({
-    model: true,
+    model: null,
     logoutDialog: {
       model: false,
     },
