@@ -1,11 +1,14 @@
 <template>
   <v-app>
-    <lazy-sidenav></lazy-sidenav>
+    <lazy-global-sidenav></lazy-global-sidenav>
     <v-main>
       <v-container>
         <nuxt />
       </v-container>
     </v-main>
+    <lazy-global-offline-alert
+      v-if="$nuxt.isOffline"
+    ></lazy-global-offline-alert>
   </v-app>
 </template>
 
@@ -59,8 +62,29 @@ export default {
       title: 'App',
     }
   },
-  mounted() {
+  async mounted() {
     createRgbVarsForThemes(this.$vuetify.theme.themes)
+    const uid = this.$store.state.user?.uid
+    if (uid) {
+      await this.$fire.firestore
+        .collection('users')
+        .doc(uid)
+        .onSnapshot(
+          async (snapshot) => {
+            if (snapshot.exists) {
+              const data = snapshot.data()
+              this.$store.commit('ON_REQUEST_USER_DATA', data)
+            } else {
+              await this.$fire.firestore.collection('users').doc(uid).set({
+                uid,
+              })
+            }
+          },
+          (error) => {
+            console.log(error)
+          }
+        )
+    }
   },
 }
 </script>

@@ -1,11 +1,21 @@
-// Setting Max-Widths & Widths
-
 @for $i from 1 through 20 {
   .max-w-#{$i}rem {
     max-width: #{$i}rem;
   }
   .w-#{$i}0 {
     width: percentage($i / 10);
+  }
+  .min-w-#{$i}0 {
+    min-width: percentage($i / 10);
+  }
+  .max-h-#{$i}rem {
+    max-height: #{$i}rem;
+  }
+  .h-#{$i}0 {
+    height: percentage($i / 10);
+  }
+  .min-h-#{$i}0 {
+    min-height: percentage($i / 10);
   }
 }
 

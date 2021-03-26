@@ -44,32 +44,31 @@ export default {
   plugins: [
     '~plugins/vue-the-mask.js',
     '~plugins/vue-typed.js',
+    '~plugins/vue-kinesis.js',
+    '~plugins/vue-local-storage.js',
     '~plugins/vue-custom-scrollbar.js',
     '~plugins/mixins.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
-  components: {
-    dirs: [
-      '~/components',
-      {
-        path: '~/components/global/',
-        prefix: 'global',
-      },
-      {
-        path: '~/components/landing/',
-        prefix: 'landing',
-      },
-      {
-        path: '~/components/vc/',
-        prefix: 'vc',
-      },
-      {
-        path: '~/components/signin/',
-        prefix: 'signin',
-      },
-    ],
-  },
+  components: [
+    {
+      path: '~/components/global/',
+      prefix: 'global',
+    },
+    {
+      path: '~/components/landing/',
+      prefix: 'landing',
+    },
+    {
+      path: '~/components/vc/',
+      prefix: 'vc',
+    },
+    {
+      path: '~/components/signin/',
+      prefix: 'signin',
+    },
+  ],
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
@@ -95,46 +94,48 @@ export default {
     // https://auth.nuxtjs.org/guide/setup
     // '@nuxtjs/auth-next',
     // https://firebase.nuxtjs.org/guide/
-    '@nuxtjs/firebase',
+    [
+      '@nuxtjs/firebase',
+      {
+        onFirebaseHosting: true,
+        lazy: true,
+        config: {
+          databaseURL: 'https://y--network.firebaseio.com',
+          apiKey: 'AIzaSyC46nDUmRkjFwHeulUdpmuKH01Lv-IA4wQ',
+          authDomain: 'y--network.firebaseapp.com',
+          projectId: 'y--network',
+          storageBucket: 'y--network.appspot.com',
+          messagingSenderId: '820507626739',
+          appId: '1:820507626739:web:f484778b93d58d556f7b86',
+          measurementId: 'G-YFHTKCMHRY',
+        },
+        services: {
+          auth: {
+            persistence: 'local', // Enable syning tabs across same browser
+            initialize: {
+              onAuthStateChangedMutation: 'ON_AUTH_STATE_CHANGED_MUTATION',
+              onAuthStateChangedAction: 'onAuthStateChangedAction',
+              subscribeManually: false,
+            },
+            ssr: false,
+            // emulatorPort: 9099,
+            // emulatorHost: 'http://localhost',
+          },
+          firestore: true,
+          functions: true,
+          storage: true,
+          // database: true,
+          // messaging: true,
+          // performance: true,
+          // analytics: true,
+          // remoteConfig: true,
+        },
+      },
+    ],
   ],
 
   eslint: {
     cache: false,
-  },
-
-  firebase: {
-    onFirebaseHosting: true,
-    config: {
-      databaseURL: 'https://y--network.firebaseio.com',
-      apiKey: 'AIzaSyC46nDUmRkjFwHeulUdpmuKH01Lv-IA4wQ',
-      authDomain: 'y--network.firebaseapp.com',
-      projectId: 'y--network',
-      storageBucket: 'y--network.appspot.com',
-      messagingSenderId: '820507626739',
-      appId: '1:820507626739:web:f484778b93d58d556f7b86',
-      measurementId: 'G-YFHTKCMHRY',
-    },
-    services: {
-      auth: {
-        persistence: 'local', // default
-        initialize: {
-          onAuthStateChangedMutation: 'ON_AUTH_STATE_CHANGED_MUTATION',
-          onAuthStateChangedAction: 'onAuthStateChangedAction',
-          subscribeManually: false,
-        },
-        ssr: false, // default
-        // emulatorPort: 9099,
-        // emulatorHost: 'http://localhost',
-      },
-      firestore: true,
-      functions: true,
-      storage: true,
-      // database: true,
-      // messaging: true,
-      // performance: true,
-      // analytics: true,
-      // remoteConfig: true,
-    },
   },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -201,7 +202,7 @@ export default {
     mode: 'hash',
     middleware: [
       // 'auth',
-      // 'router-auth',
+      'router-auth',
     ],
   },
 }

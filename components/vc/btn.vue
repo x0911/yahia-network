@@ -25,6 +25,10 @@ export default {
       type: Function,
       default: () => {},
     },
+    to: {
+      type: String || null,
+      default: null,
+    },
     large: Boolean,
     xLarge: Boolean,
     block: Boolean,
@@ -32,6 +36,7 @@ export default {
     fab: Boolean,
     icon: Boolean,
     loading: Boolean,
+    disabled: Boolean,
     outlined: Boolean,
     plain: Boolean,
     retainFocusOnClick: Boolean,
@@ -66,6 +71,9 @@ export default {
         const { color } = this
         const styles = []
         // Global Styles
+        if (this.disabled) {
+          return ''
+        }
         if (hover) {
           // Styles on hover
           styles.push('transform: translateY(-3px)')

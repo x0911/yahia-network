@@ -8,6 +8,7 @@
       :right="$vuetify.theme.rtl"
       overflow
       height="100%"
+      width="260"
       dark
     >
       <template #img>
@@ -17,58 +18,70 @@
           :src="require('@/assets/imgs/21.jpg')"
         ></v-img>
       </template>
-      <vue-custom-scrollbar
-        style="height: 100%; width: 260px"
-        :settings="$store.state.options.scrollbar_settings"
-      >
-        <v-list nav dense class="px-0">
-          <v-subheader>Your Profile</v-subheader>
-          <v-list-item exact :to="`/profile/${user.uid}`">
-            <v-list-item-avatar>
-              <v-img
-                :src="
-                  user.picture
-                    ? user.picture
-                    : require('@/assets/imgs/user-placeholder.jpg')
-                "
-                :lazy-src="require('@/assets/imgs/user-placeholder.jpg')"
-              ></v-img>
-            </v-list-item-avatar>
-            <v-list-item-content>
-              <v-list-item-title
-                v-text="user.fullName ? user.fullName : '---'"
-              ></v-list-item-title>
-              <v-list-item-subtitle> --- </v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-          <v-divider></v-divider>
-          <template v-for="(item, i) in items">
-            <v-subheader
-              v-if="item.subheader"
-              :key="`s_${i}`"
-              v-text="item.subheader"
-            ></v-subheader>
-            <v-divider v-if="item.topDivider" :key="`td_${i}`"></v-divider>
-            <v-list-item
-              v-if="!item.type || item.type == 'single'"
-              :key="i"
-              exact
-              class="my-0"
-              :to="item.to"
-              @click="item.click ? runFun(item.click) : () => {}"
-            >
+      <v-card class="px-0 ma-0 transparent" flat tile height="100%">
+        <vue-custom-scrollbar
+          style="height: 100%; width: 260px"
+          :settings="$store.state.options.scrollbar_settings"
+        >
+          <v-list nav dense class="">
+            <v-subheader>Your Profile</v-subheader>
+            <v-list-item exact :to="`/profile/${user.uid}`">
               <v-list-item-avatar>
-                <v-icon v-text="item.icon"></v-icon>
+                <v-img
+                  :src="
+                    userData.picture
+                      ? userData.picture
+                      : require('@/assets/imgs/user-placeholder.jpg')
+                  "
+                  :lazy-src="require('@/assets/imgs/user-placeholder.jpg')"
+                ></v-img>
               </v-list-item-avatar>
               <v-list-item-content>
-                <v-list-item-title v-text="item.title"></v-list-item-title>
-                <v-list-item-subtitle v-text="item.desc"></v-list-item-subtitle>
+                <v-list-item-title
+                  v-text="
+                    `${userData.fname ? userData.fname : 'New'} ${
+                      userData.lname ? userData.lname : 'User'
+                    }`
+                  "
+                ></v-list-item-title>
+                <v-list-item-subtitle
+                  v-text="
+                    userData.jobDesc ? userData.jobDesc : 'See your profile'
+                  "
+                ></v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-divider v-if="item.bottomDivider" :key="`bd_${i}`"></v-divider>
-          </template>
-        </v-list>
-      </vue-custom-scrollbar>
+            <v-divider></v-divider>
+            <template v-for="(item, i) in items">
+              <v-subheader
+                v-if="item.subheader"
+                :key="`s_${i}`"
+                v-text="item.subheader"
+              ></v-subheader>
+              <v-divider v-if="item.topDivider" :key="`td_${i}`"></v-divider>
+              <v-list-item
+                v-if="!item.type || item.type == 'single'"
+                :key="i"
+                exact
+                class="my-0"
+                :to="item.to"
+                @click="item.click ? runFun(item.click) : () => {}"
+              >
+                <v-list-item-avatar>
+                  <v-icon v-text="item.icon"></v-icon>
+                </v-list-item-avatar>
+                <v-list-item-content>
+                  <v-list-item-title v-text="item.title"></v-list-item-title>
+                  <v-list-item-subtitle
+                    v-text="item.desc"
+                  ></v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+              <v-divider v-if="item.bottomDivider" :key="`bd_${i}`"></v-divider>
+            </template>
+          </v-list>
+        </vue-custom-scrollbar>
+      </v-card>
     </v-navigation-drawer>
     <!-- Dialogs -->
     <v-dialog v-model="logoutDialog.model" scrollable max-width="600">
@@ -117,41 +130,16 @@
 export default {
   name: 'Sidenav',
   data: () => ({
-    model: false,
+    model: true,
     logoutDialog: {
       model: false,
     },
     items: [
       {
         subheader: 'Menu',
-        title: 'Overview',
+        title: 'Timeline',
         icon: 'mdi-earth',
         to: '/app',
-      },
-      {
-        title: 'Activate Card',
-        icon: 'mdi-card-account-details-star-outline',
-        to: '/app/activate-card',
-      },
-      {
-        title: 'Scan QR Code',
-        icon: 'mdi-qrcode-scan',
-        to: '/app/scan/qr',
-      },
-      {
-        title: 'Scan Fingerprint',
-        icon: 'mdi-fingerprint',
-        to: '/app/scan/fingerprint',
-      },
-      {
-        title: 'QR Generator',
-        icon: 'mdi-qrcode-plus',
-        to: '/app/qr-generator',
-      },
-      {
-        title: 'Switch Identity',
-        icon: 'mdi-account-switch-outline',
-        to: '/app/identity',
       },
       {
         title: 'Settings',
@@ -165,20 +153,15 @@ export default {
         bottomDivider: true,
       },
       {
-        subheader: 'Need Help?',
-        title: 'Find us',
-        icon: 'mdi-map-marker',
-        to: '/contact',
+        subheader: 'Found Issue?',
+        title: 'Report a bug',
+        icon: 'mdi-bug',
+        to: '/bug',
       },
       {
         title: 'Changelog',
         icon: 'mdi-file-document-multiple-outline',
         to: '/changelog',
-      },
-      {
-        title: 'Report a bug',
-        icon: 'mdi-bug',
-        to: '/bug',
         bottomDivider: true,
       },
       {
@@ -186,11 +169,6 @@ export default {
         title: 'Meet The Team',
         icon: 'mdi-heart-box-outline',
         to: '/team',
-      },
-      {
-        title: 'Sponsors and Backers',
-        icon: 'mdi-handshake',
-        to: '/sponsors',
       },
       {
         title: 'Getting Started Guide',
@@ -203,6 +181,9 @@ export default {
     user() {
       return this.$store.state.user ? this.$store.state.user : {}
     },
+    userData() {
+      return this.$store.state.userData ? this.$store.state.userData : {}
+    },
   },
   methods: {
     runFun(fun) {
@@ -211,12 +192,9 @@ export default {
       }
     },
     async logout() {
-      this.$nuxt.$loading.start()
       await this.$store.dispatch('logout')
-      this.$nuxt.$loading.finish()
-      this.$set(this.logoutDialog, 'model', false)
       this.$nextTick(() => {
-        this.$router.push('/')
+        window.location.reload()
       })
     },
     showLogoutDialog() {

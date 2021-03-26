@@ -1,7 +1,12 @@
 <template>
-  <div>
-    <!-- Home Page For Auth Users  -->
-  </div>
+  <v-layout align-center justify-center align-content-center>
+    <v-flex lg6>
+      <div>
+        <lazy-global-add-post></lazy-global-add-post>
+        <lazy-global-all-posts></lazy-global-all-posts>
+      </div>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>
@@ -21,5 +26,6 @@ export default {
       ],
     }
   },
+  methods: {},
 }
 </script>
