@@ -66,6 +66,19 @@ export default {
   },
   mounted() {
     createRgbVarsForThemes(this.$vuetify.theme.themes)
+    this.checkPwaUpdates()
+  },
+  methods: {
+    async checkPwaUpdates() {
+      const workbox = await window.$workbox
+      if (workbox) {
+        workbox.addEventListener('installed', (event) => {
+          if (event.isUpdate) {
+            //
+          }
+        })
+      }
+    },
   },
 }
 </script>

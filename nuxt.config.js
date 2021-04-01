@@ -152,6 +152,7 @@ export default {
       lang: 'en',
     },
     workbox: {
+      skipWaiting: true,
       // importScripts: ['/firebase-auth-sw.js'],
       // swURL: '/sw.js',
       // dev: process.env.NODE_ENV === 'development',
