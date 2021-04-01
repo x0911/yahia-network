@@ -118,7 +118,7 @@ export default {
       const medias = this.post.medias
       medias.splice(index, 1)
     },
-    async addPost() {
+    addPost() {
       const { content, medias, audience } = this.post
       const uid = this.$store.state.user?.uid
       const currentDate = new Date()
@@ -127,7 +127,8 @@ export default {
       let filteredContent = content
       filteredContent = filteredContent.replace(/(<([^>]+)>)/gi, '')
       filteredContent = filteredContent.replace(/(?:\r\n|\r|\n)/g, '<br />')
-      const post = await this.$fire.firestore.collection('posts').add({
+      const postId = this.firestoreDocId()
+      this.$fire.firestore.collection('posts').doc(postId).set({
         content: filteredContent,
         medias,
         audience,
@@ -136,10 +137,13 @@ export default {
         createdDate: currentDate,
         isDeleted: false,
       })
-      this.clearNewPost()
-      this.setLoading(false)
-      this.$set(this, 'loading', false)
-      this.$emit('published', post.id)
+      const intval = setInterval(() => {
+        clearInterval(intval)
+        this.clearNewPost()
+        this.setLoading(false)
+        this.$set(this, 'loading', false)
+        this.$emit('published', postId)
+      }, 750)
     },
     setNewMedia(medias) {
       const currentMedias = this.post.medias

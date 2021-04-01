@@ -29,22 +29,22 @@ module.exports = {
       this.$router.push(r)
     })
   },
-  dataURLToBlob(dataURL) {
-    const BASE64_MARKER = ';base64,'
-    if (dataURL.includes(BASE64_MARKER)) {
-      const parts = dataURL.split(',')
-      const contentType = parts[0].split(':')[1]
-      const raw = parts[1]
-      return new Blob([raw], { type: contentType })
+  removeRandomChars(str, length) {
+    const removeRandomLetter = (str) => {
+      const pos = Math.floor(Math.random() * str.length)
+      return str.substring(0, pos) + str.substring(pos + 1)
     }
-    const parts = dataURL.split(BASE64_MARKER)
-    const contentType = parts[0].split(':')[1]
-    const raw = window.atob(parts[1])
-    const rawLength = raw.length
-    const uInt8Array = new Uint8Array(rawLength)
-    for (let i = 0; i < rawLength; ++i) {
-      uInt8Array[i] = raw.charCodeAt(i)
+    for (let i = 0; i < length; i++) {
+      str = removeRandomLetter(str)
     }
-    return new Blob([uInt8Array], { type: contentType })
+    return str
+  },
+  firestoreDocId() {
+    const { v4 } = require('uuid/')
+    const id = v4()
+    const time = new Date().getTime()
+    const fusion = `${id}${time}`.replace(/-/g, '')
+    const stripped = this.removeRandomChars(fusion, 15)
+    return stripped
   },
 }

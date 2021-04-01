@@ -90,10 +90,6 @@ export default {
     getStarted() {
       const uid = this.$store.state.user.uid
       const { fname, lname, gender } = this
-      if (!uid) {
-        // No user exists
-        console.log('User not exists')
-      }
       if (
         !fname ||
         !lname ||
@@ -102,27 +98,22 @@ export default {
         !lname.trim().length === 0 ||
         !gender.trim().length === 0
       ) {
-        console.log('Field is missing')
         return
       }
       this.setLoading(true)
-      this.$fire.firestore
-        .collection('users')
-        .doc(uid)
-        .update({
+      this.$fire.firestore.collection('users').doc(uid).set(
+        {
           fname,
           lname,
           gender,
-        })
-        .then((x) => {
-          //
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-        .finally(() => {
-          this.setLoading(false)
-        })
+        },
+        { merge: true }
+      )
+      const intval = setInterval(() => {
+        clearInterval(intval)
+        this.setLoading(false)
+        this.pushRoute('/app')
+      }, 750)
     },
   },
 }

@@ -57,6 +57,13 @@ export const mutations = {
   ON_REQUEST_USER_DATA: (state, data) => {
     state.userData = data
   },
+  SET_OFFLINE_USER: (state) => {
+    const stringified = localStorage.getItem('y-network-user')
+    if (stringified) {
+      const parsed = JSON.parse(stringified)
+      state.user = parsed
+    }
+  },
   ON_AUTH_STATE_CHANGED_MUTATION: (state, { authUser, claims }) => {
     if (!authUser) {
       // claims = null
@@ -82,6 +89,8 @@ export const mutations = {
         email,
         emailVerified,
       }
+      const stringified = JSON.stringify(state.user)
+      localStorage.setItem('y-network-user', stringified)
     }
   },
   ON_GET_FIREBASE_READY(state) {
@@ -99,6 +108,9 @@ export const actions = {
         i++
         if (i > 10 || !isPending) {
           clearInterval(intval)
+          if (i > 10) {
+            ctx.commit('SET_OFFLINE_USER')
+          }
           resolve(true)
         }
       }, 1000)
@@ -145,10 +157,8 @@ export const actions = {
           .doc(state.user.uid)
           .onSnapshot(
             (snapshot) => {
-              if (snapshot.exists) {
-                const data = snapshot.data()
-                commit('ON_REQUEST_USER_DATA', data)
-              }
+              const data = snapshot.data()
+              commit('ON_REQUEST_USER_DATA', data)
               resolve(true)
             },
             (error) => {
@@ -157,7 +167,6 @@ export const actions = {
             }
           )
       } else {
-        console.log('No uid')
         resolve(true)
       }
     })

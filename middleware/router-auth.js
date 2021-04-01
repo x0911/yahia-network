@@ -29,11 +29,9 @@ export default async function (context) {
       //   context.redirect('/get-started')
       // }
       if (context.store.state.user) {
-        console.log('We have a user')
         // We have a user
         if (
           (!context.store.state.userData ||
-            !context.store.state.userData.uid ||
             !context.store.state.userData.fname ||
             !context.store.state.userData.lname ||
             !context.store.state.userData.gender) &&
@@ -41,14 +39,12 @@ export default async function (context) {
         ) {
           context.redirect('/get-started/one-more-step')
         }
-        console.log(context.store.state.userData)
         if (
           ['/'].includes(fullPath) ||
           (fullPath.includes('/get-started') &&
             (fullPath !== '/get-started/one-more-step' ||
               (fullPath === '/get-started/one-more-step' &&
                 context.store.state.userData &&
-                context.store.state.userData.uid &&
                 context.store.state.userData.fname &&
                 context.store.state.userData.lname &&
                 context.store.state.userData.gender)))
@@ -56,7 +52,6 @@ export default async function (context) {
           context.redirect('/app')
         }
       } else {
-        console.log("We don't have a user")
         // We Don't have a user
         if (fullPath === '/get-started') {
           context.redirect('/get-started/login')

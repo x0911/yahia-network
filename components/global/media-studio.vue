@@ -63,7 +63,7 @@
                     multiple
                     @change="uploadMedia"
                   />
-                  <v-icon x-large color="secondary">mdi-plus-thick</v-icon>
+                  <v-icon x-large color="secondary">mdi-plus</v-icon>
                 </v-btn>
               </v-col>
               <template v-for="(file, i) in uploadingFiles">
