@@ -1,9 +1,9 @@
 <template>
   <v-layout align-center justify-center align-content-center>
-    <v-flex lg6>
+    <v-flex lg7>
       <div>
-        <add-post></add-post>
-        <all-posts></all-posts>
+        <add-post @published="publishNewPost"></add-post>
+        <all-posts ref="all_posts"></all-posts>
       </div>
     </v-flex>
   </v-layout>
@@ -30,6 +30,10 @@ export default {
       ],
     }
   },
-  methods: {},
+  methods: {
+    publishNewPost(post) {
+      this.$refs.all_posts.pushPost(post)
+    },
+  },
 }
 </script>

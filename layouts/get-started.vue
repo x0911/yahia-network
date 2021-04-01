@@ -94,7 +94,7 @@
         </v-flex>
       </v-layout>
     </v-main>
-    <signin-methods-for-email></signin-methods-for-email>
+    <methods-for-email></methods-for-email>
   </v-app>
 </template>
 
@@ -143,6 +143,7 @@ const createRgbVarsForThemes = (themes) => {
 export default {
   components: {
     AppLogo: () => import('@/components/global/logo.vue'),
+    MethodsForEmail: () => import('@/components/signin/methods-for-email.vue'),
   },
   data: () => ({
     reCaptchaIsSet: false,

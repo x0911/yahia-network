@@ -1,91 +1,162 @@
 <template>
-  <v-card class="mb-8" :disabled="loading" elevation="6">
-    <v-card-title>
-      What's on your mind?
-      <v-spacer></v-spacer>
-      <v-btn outlined color="secondary lighten-2">
-        <v-icon class="me-2">mdi-earth</v-icon>
-        Public
-        <v-icon small class="ms-1">mdi-chevron-down</v-icon>
-      </v-btn>
-    </v-card-title>
-    <v-card-text>
-      <v-textarea v-model="newPost.content" auto-grow filled></v-textarea>
-      <div>
-        <!-- <v-btn small class="px-0" text color="primary">
+  <div>
+    <v-card class="mb-8" :disabled="loading" elevation="6">
+      <v-card-title>
+        What's on your mind?
+        <v-spacer></v-spacer>
+        <v-btn outlined color="secondary lighten-2">
+          <v-icon class="me-2">mdi-earth</v-icon>
+          Public
+          <v-icon small class="ms-1">mdi-chevron-down</v-icon>
+        </v-btn>
+      </v-card-title>
+      <v-card-text class="pb-0">
+        <v-textarea
+          v-model="post.content"
+          auto-grow
+          filled
+          counter="2000"
+        ></v-textarea>
+        <div>
+          <!-- <v-btn small class="px-0" text color="primary">
                 <v-icon class="me-2">mdi-format-textbox</v-icon>
                 Try advanced text editor
               </v-btn> -->
-        <v-btn small class="px-0" text color="primary">
-          <v-icon class="me-2">mdi-camera-image</v-icon>
-          Upload Images / Videos
-        </v-btn>
-      </div>
-    </v-card-text>
-    <v-card-text v-if="newPost.medias.length > 0">
-      <template v-for="(media, i) in newPost.medias">
-        <div :key="i">
-          <v-img v-if="media.type == 'img'" :src="media.src"></v-img>
         </div>
-      </template>
-    </v-card-text>
-    <v-card-actions>
-      <vc-btn
-        :disabled="!newPost.content"
-        block
-        x-large
-        color="primary"
-        :btn-click="addPost"
-      >
-        Post
-      </vc-btn>
-    </v-card-actions>
-  </v-card>
+      </v-card-text>
+      <v-card-text class="pt-0">
+        <v-row>
+          <v-col cols="6" sm="4" md="3">
+            <v-btn
+              :height="mediaHeight"
+              width="100%"
+              @click="$refs.mediaStudio.open()"
+            >
+              <div>
+                <div>
+                  <v-icon class="mb-2">mdi-plus</v-icon>
+                </div>
+                <div>Media</div>
+              </div>
+            </v-btn>
+          </v-col>
+          <template v-for="(media, i) in post.medias">
+            <v-col :key="i" cols="6" sm="4" md="3">
+              <v-card :height="mediaHeight" width="100%" flat>
+                <v-avatar
+                  v-if="
+                    media &&
+                    media.metadata &&
+                    media.metadata.type &&
+                    media.metadata.type == 'image'
+                  "
+                  rounded="sm"
+                  :height="mediaHeight"
+                  width="100%"
+                >
+                  <v-img :src="media.thumbnail">
+                    <v-layout fill-height justify-end align-start>
+                      <v-btn icon dark @click="deleteMedia(i)">
+                        <v-icon>mdi-delete</v-icon>
+                      </v-btn>
+                    </v-layout>
+                  </v-img>
+                </v-avatar>
+              </v-card>
+            </v-col>
+          </template>
+        </v-row>
+      </v-card-text>
+      <v-card-actions>
+        <vc-btn
+          :disabled="!allowPosting"
+          block
+          x-large
+          color="primary"
+          :btn-click="addPost"
+        >
+          Post
+        </vc-btn>
+      </v-card-actions>
+    </v-card>
+    <media-studio ref="mediaStudio" @got-media="setNewMedia"></media-studio>
+  </div>
 </template>
 
 <script>
 export default {
+  components: {
+    MediaStudio: () => import('@/components/global/media-studio.vue'),
+  },
   data: () => ({
     loading: false,
-    newPost: {
+    post: {
       content: '',
       medias: [],
       audience: 'public',
     },
   }),
+  computed: {
+    mediaHeight() {
+      // const h = this.$vuetify.breakpoint.smAndUp ? '150' : '100'
+      return '100'
+    },
+    allowPosting() {
+      let r = false
+      const { content, medias } = this.post
+      if (content && content.trim().length > 0) {
+        r = true
+      }
+      if (medias && medias.length > 0) {
+        r = true
+      }
+      return r
+    },
+  },
   methods: {
+    deleteMedia(index) {
+      const medias = this.post.medias
+      medias.splice(index, 1)
+    },
     async addPost() {
-      const { content, medias, audience } = this.newPost
+      const { content, medias, audience } = this.post
       const uid = this.$store.state.user?.uid
       const currentDate = new Date()
       this.setLoading(true)
       this.$set(this, 'loading', true)
-      await this.$fire.firestore
-        .collection('posts')
-        .add({
-          content,
-          medias,
-          audience,
-          uid,
-          lastModifiedDate: currentDate,
-          createdDate: currentDate,
-        })
-        .then((x) => {
-          console.log(x)
-          this.clearNewPost()
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-        .finally(() => {
-          this.setLoading(false)
-          this.$set(this, 'loading', false)
-        })
+      let filteredContent = content
+      filteredContent = filteredContent.replace(/(<([^>]+)>)/gi, '')
+      filteredContent = filteredContent.replace(/(?:\r\n|\r|\n)/g, '<br />')
+      const post = await this.$fire.firestore.collection('posts').add({
+        content: filteredContent,
+        medias,
+        audience,
+        uid,
+        lastModifiedDate: currentDate,
+        createdDate: currentDate,
+        isDeleted: false,
+      })
+      this.clearNewPost()
+      this.setLoading(false)
+      this.$set(this, 'loading', false)
+      this.$emit('published', post.id)
+    },
+    setNewMedia(medias) {
+      const currentMedias = this.post.medias
+      medias.forEach((media) => {
+        const obj = {}
+        obj.src = media.src
+        obj.thumbnail = media.thumbnail
+        obj.featured = media.featured
+        obj.name = media.metadata.name
+        obj.metadata = media.metadata.customMetadata
+        currentMedias.push(obj)
+      })
     },
     clearNewPost() {
-      this.$set(this.newPost, 'content', '')
-      this.$set(this.newPost, 'medias', [])
-      this.$set(this.newPost, 'audience', 'public')
+      this.$set(this.post, 'content', '')
+      this.$set(this.post, 'medias', [])
+      this.$set(this.post, 'audience', 'public')
     },
   },
 }

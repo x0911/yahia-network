@@ -20,10 +20,12 @@
   },
   "dependencies": {
     "@mdi/font": "^5.4.55",
+    "@morioh/v-lightbox": "^1.0.3",
     "@nuxt/content": "^1.11.1",
     "@nuxtjs/axios": "^5.12.5",
     "@nuxtjs/firebase": "^7.5.0",
     "@nuxtjs/pwa": "^3.3.5",
+    "@openfonts/cairo_arabic": "^1.44.1",
     "age-calculator": "^1.0.0",
     "core-js": "^3.8.3",
     "device-detector-js": "^2.2.7",

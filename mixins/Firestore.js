@@ -23,4 +23,24 @@ module.exports = {
       })()
     })
   },
+  getPostAuthor(doc) {
+    const $this = this
+    return new Promise((resolve, reject) => {
+      const post = doc.data()
+      post.hasPendingWrites = doc.metadata.hasPendingWrites
+      post.id = doc.id
+      post.isDeleted = post.isDeleted || !doc.exists
+      $this.$fire.firestore
+        .collection('users')
+        .doc(post.uid)
+        .get()
+        .then((author) => {
+          post.author = author.data()
+          resolve(post)
+        })
+        .catch(() => {
+          resolve(post)
+        })
+    })
+  },
 }

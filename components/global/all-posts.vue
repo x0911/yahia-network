@@ -1,7 +1,8 @@
 <template>
   <div>
-    <template v-for="(post, i) in posts">
-      <single-post :id="post.id" :key="i"></single-post>
+    <template v-for="postId in posts">
+      <!-- @deleted="deletePost(post.id)" -->
+      <single-post :id="postId" :key="postId"></single-post>
     </template>
   </div>
 </template>
@@ -17,27 +18,37 @@ export default {
   }),
   computed: {},
   mounted() {
-    // this.getPosts()
+    this.getPosts()
   },
   methods: {
     getPosts() {
       this.setLoading(true)
       this.$fire.firestore
         .collection('posts')
-        .limit(3)
+        .where('isDeleted', '==', false)
+        .limit(10)
+        .orderBy('lastModifiedDate', 'desc')
         .get()
         .then((posts) => {
-          console.log(posts)
-          this.$set(this, 'posts', posts)
+          const ids = posts.docs.map((p) => p.id)
+          this.$set(this, 'posts', ids)
         })
         .catch((err) => {
           //
           console.log(err)
         })
         .finally(() => {
-          this.setLoading(true)
+          this.setLoading(false)
         })
     },
+    pushPost(postId) {
+      this.posts.unshift(postId)
+    },
+    // deletePost(id) {
+    //   const posts = this.posts
+    //   const index = posts.findIndex((post) => post.id === id)
+    //   posts.splice(index, 1)
+    // },
   },
 }
 </script>

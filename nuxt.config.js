@@ -28,9 +28,11 @@ export default {
     '@/assets/scss',
     '@mdi/font/css/materialdesignicons.css',
     'roboto-fontface/css/roboto/roboto-fontface.css',
-    'typeface-cairo',
     'typeface-poppins',
+    'typeface-cairo',
+    '@openfonts/cairo_arabic',
     'vue-custom-scrollbar/dist/vueScrollbar.css',
+    '@morioh/v-lightbox/dist/lightbox.css',
   ],
 
   loading: {

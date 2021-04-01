@@ -1,14 +1,44 @@
+function MakeQuerablePromise(promise) {
+  if (promise.isResolved) return promise
+  let isPending = true
+  let isRejected = false
+  let isFulfilled = false
+  const result = promise.then(
+    function (v) {
+      isFulfilled = true
+      isPending = false
+      return v
+    },
+    function (e) {
+      isRejected = true
+      isPending = false
+      throw e
+    }
+  )
+  result.isFulfilled = function () {
+    return isFulfilled
+  }
+  result.isPending = function () {
+    return isPending
+  }
+  result.isRejected = function () {
+    return isRejected
+  }
+  return result
+}
+
 export const state = () => ({
   firebaseReady: false,
-  user: {
-    uid: 'eDDFrdK7BeX6el3JUXrLwVFxRU03',
-    displayName: null,
-    isAnonymous: false,
-    phoneNumber: '+201113429944',
-    photoURL: null,
-    email: null,
-    emailVerified: false,
-  },
+  user: null,
+  // user: {
+  //   uid: 'eDDFrdK7BeX6el3JUXrLwVFxRU03',
+  //   displayName: null,
+  //   isAnonymous: false,
+  //   phoneNumber: '+201113429944',
+  //   photoURL: null,
+  //   email: null,
+  //   emailVerified: false,
+  // },
   userData: null,
   login: {
     mask: {
@@ -60,29 +90,36 @@ export const mutations = {
 }
 
 export const actions = {
+  subscribeFirebaseAuth(ctx) {
+    const t = MakeQuerablePromise(this.$fireAuthStore.subscribe())
+    let i = 0
+    return new Promise((resolve, reject) => {
+      const intval = setInterval(() => {
+        const isPending = t.isPending()
+        i++
+        if (i > 10 || !isPending) {
+          clearInterval(intval)
+          resolve(true)
+        }
+      }, 1000)
+    })
+  },
   getFirebaseReady({ commit, state, dispatch, rootState }) {
     return new Promise((resolve, reject) => {
       if (!state.firebaseReady) {
-        this.$fire
-          .authReady()
-          .then(() => {})
-          .catch(() => {})
-          .finally(async () => {
-            await this.$fire.firestoreReady()
-            this.$fireModule.firestore().settings({
-              cacheSizeBytes: this.$fire.firestore.CACHE_SIZE_UNLIMITED,
-            })
-            this.$fireModule.firestore().enablePersistence()
-            await this.$fire.storageReady()
-            await this.$fire.functionsReady()
-            this.$fireAuthStore.subscribe()
-            dispatch('setUserData')
-            const intval = setInterval(() => {
-              commit('ON_GET_FIREBASE_READY')
-              clearInterval(intval)
-              resolve(true)
-            }, 5000)
+        this.$fire.authReady().finally(async () => {
+          await this.$fire.firestoreReady()
+          this.$fireModule.firestore().settings({
+            cacheSizeBytes: this.$fire.firestore.CACHE_SIZE_UNLIMITED,
           })
+          this.$fireModule.firestore().enablePersistence()
+          await this.$fire.storageReady()
+          await this.$fire.functionsReady()
+          await dispatch('subscribeFirebaseAuth')
+          await dispatch('setUserData')
+          commit('ON_GET_FIREBASE_READY')
+          resolve(true)
+        })
       } else {
         resolve(true)
       }
@@ -98,34 +135,32 @@ export const actions = {
       // Get User Data
     }
   },
-  async setUserData({ commit, state, rootState }) {
+  setUserData({ commit, state, rootState }) {
     const $this = this
-    const uid = state.user.uid
-    if (uid) {
-      await $this.$fire.firestore
-        .collection('users')
-        .doc(state.user.uid)
-        .onSnapshot(
-          async (snapshot) => {
-            if (snapshot.exists) {
-              const data = snapshot.data()
-              commit('ON_REQUEST_USER_DATA', data)
-            } else {
-              await $this.$fire.firestore
-                .collection('users')
-                .doc(state.user.uid)
-                .set({
-                  uid: state.user.uid,
-                })
+    const uid = state.user?.uid
+    return new Promise((resolve, reject) => {
+      if (uid) {
+        $this.$fire.firestore
+          .collection('users')
+          .doc(state.user.uid)
+          .onSnapshot(
+            (snapshot) => {
+              if (snapshot.exists) {
+                const data = snapshot.data()
+                commit('ON_REQUEST_USER_DATA', data)
+              }
+              resolve(true)
+            },
+            (error) => {
+              console.log(error)
+              resolve(true)
             }
-          },
-          (error) => {
-            console.log(error)
-          }
-        )
-    } else {
-      console.log('No uid')
-    }
+          )
+      } else {
+        console.log('No uid')
+        resolve(true)
+      }
+    })
   },
   logout({ commit, state, rootState }) {
     return new Promise((resolve, reject) => {

@@ -4,7 +4,7 @@
       <v-btn
         v-bind="$props"
         :elevation="hover ? '6' : '0'"
-        :style="style(hover)"
+        :style="style(canTransform ? hover : false)"
         @click="btnClick"
       >
         <slot></slot>
@@ -29,8 +29,14 @@ export default {
       type: String || null,
       default: null,
     },
+    canTransform: {
+      type: Boolean,
+      default: true,
+    },
     large: Boolean,
     xLarge: Boolean,
+    small: Boolean,
+    xSmall: Boolean,
     block: Boolean,
     depressed: Boolean,
     fab: Boolean,
