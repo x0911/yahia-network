@@ -1,0 +1,13 @@
+{
+  "appId": "com.y.network",
+  "appName": "Y Network",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "dist",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 1
+    }
+  },
+  "cordova": {}
+}

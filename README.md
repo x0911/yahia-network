@@ -20,3 +20,12 @@ $ npm run generate
 ```
 
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+
+### Path To Debug APK
+
+> E:\XAMPP-IMPORTANT\htdocs\Yahia-Network\android\app\build\outputs\apk\debug
+
+### Capacitor commands
+
+npx cap sync
+npx cap copy

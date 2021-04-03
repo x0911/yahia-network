@@ -19,6 +19,9 @@
     "resources": "capacitor-resources -p android"
   },
   "dependencies": {
+    "@capacitor/android": "^2.4.7",
+    "@capacitor/cli": "^2.4.7",
+    "@capacitor/core": "^2.4.7",
     "@mdi/font": "^5.4.55",
     "@morioh/v-lightbox": "^1.0.3",
     "@nuxt/content": "^1.11.1",
