@@ -35,7 +35,11 @@ module.exports = {
         .doc(post.uid)
         .get()
         .then((author) => {
-          post.author = author.data()
+          const postAuthor = author.data()
+          post.author =
+            postAuthor && typeof postAuthor === 'object'
+              ? postAuthor
+              : { fname: 'Y', lname: 'User' }
           resolve(post)
         })
         .catch(() => {

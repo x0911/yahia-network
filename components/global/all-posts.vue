@@ -1,8 +1,12 @@
 <template>
   <div>
+    <add-post ref="add_post" @published="pushPost"></add-post>
     <template v-for="postId in posts">
-      <!-- @deleted="deletePost(post.id)" -->
-      <single-post :id="postId" :key="postId"></single-post>
+      <single-post
+        :id="postId"
+        :key="postId"
+        @edit="editPost(postId)"
+      ></single-post>
     </template>
   </div>
 </template>
@@ -11,6 +15,7 @@
 export default {
   name: 'AllPosts',
   components: {
+    AddPost: () => import('@/components/global/add-post.vue'),
     SinglePost: () => import('@/components/global/single-post.vue'),
   },
   data: () => ({
@@ -26,8 +31,8 @@ export default {
       this.$fire.firestore
         .collection('posts')
         .where('isDeleted', '==', false)
-        .limit(10)
         .orderBy('lastModifiedDate', 'desc')
+        .limit(10)
         .get()
         .then((posts) => {
           const ids = posts.docs.map((p) => p.id)
@@ -43,6 +48,9 @@ export default {
     },
     pushPost(postId) {
       this.posts.unshift(postId)
+    },
+    editPost(postId) {
+      this.$refs.add_post.requestEdit(postId)
     },
     // deletePost(id) {
     //   const posts = this.posts

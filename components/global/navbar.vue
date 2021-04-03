@@ -46,7 +46,7 @@
       <v-avatar v-if="!topnav.collapse">
         <app-logo color="secondary"></app-logo>
       </v-avatar>
-      <v-btn v-if="!topnav.collapse" text to="/" active-class="no-background">
+      <v-btn v-if="!topnav.collapse" text to="/" active-class="no-active">
         <v-toolbar-title class="font-weight-medium">
           Social Network
         </v-toolbar-title>

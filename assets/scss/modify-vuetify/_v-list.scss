@@ -1,6 +1,6 @@
 .v-list {
   .v-list-item {
-    &.no-active-background {
+    &.no-active {
       &::before {
         background-color: transparent;
       }

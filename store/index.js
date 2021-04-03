@@ -157,8 +157,10 @@ export const actions = {
           .doc(state.user.uid)
           .onSnapshot(
             (snapshot) => {
-              const data = snapshot.data()
-              commit('ON_REQUEST_USER_DATA', data)
+              if (snapshot.exists) {
+                const data = snapshot.data()
+                commit('ON_REQUEST_USER_DATA', data)
+              }
               resolve(true)
             },
             (error) => {

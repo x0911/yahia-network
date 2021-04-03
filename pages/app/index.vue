@@ -1,8 +1,7 @@
 <template>
   <v-layout align-center justify-center align-content-center>
     <v-flex lg7>
-      <div>
-        <add-post @published="publishNewPost"></add-post>
+      <div class="pt-10">
         <all-posts ref="all_posts"></all-posts>
       </div>
     </v-flex>
@@ -12,7 +11,6 @@
 <script>
 export default {
   components: {
-    AddPost: () => import('@/components/global/add-post.vue'),
     AllPosts: () => import('@/components/global/all-posts.vue'),
   },
   layout: 'auth',
@@ -30,10 +28,6 @@ export default {
       ],
     }
   },
-  methods: {
-    publishNewPost(post) {
-      this.$refs.all_posts.pushPost(post)
-    },
-  },
+  methods: {},
 }
 </script>
