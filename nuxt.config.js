@@ -37,7 +37,7 @@ export default {
 
   loading: {
     color: '#1976d2',
-    failedColor: 'red',
+    failedColor: '#ff5252',
     height: '8px',
     continuous: true,
   },
@@ -194,7 +194,9 @@ export default {
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+    publicPath: '/nuxtfiles/',
+  },
 
   serverMiddleware: [
     {

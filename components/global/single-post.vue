@@ -387,6 +387,7 @@
             </v-flex>
           </v-layout>
         </v-card-actions>
+        <all-comments :post-id="id"></all-comments>
       </v-card>
     </v-skeleton-loader>
     <!-- Start: Post Options -->
@@ -660,6 +661,9 @@
 <script>
 export default {
   name: 'SinglePost',
+  components: {
+    AllComments: () => import('@/components/global/all-comments.vue'),
+  },
   filters: {
     filterContent(text) {
       if (text) {

@@ -23,7 +23,7 @@ export default {
           hid: 'description',
           name: 'description',
           content:
-            'This is your timeline. A page where you see relevant things to your interests',
+            'This is your timeline. A page where you see relevants to your interests',
         },
       ],
     }
